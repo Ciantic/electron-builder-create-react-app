@@ -1,0 +1,28 @@
+{
+    "name": "host-electron",
+    "version": "1.0.0",
+    "main": "index.js",
+    "license": "MIT",
+    "devDependencies": {
+        "copyfiles": "^2.1.0",
+        "electron": "^4.0.1",
+        "electron-builder": "^20.38.5",
+        "ts-node": "^7.0.1",
+        "typescript": "^3.2.4"
+    },
+    "build": {
+        "appId": "theid.hostElectron",
+        "win": {
+            "target": "portable"
+        },
+        "extraFiles": "out/gui"
+    },
+    "scripts": {
+        "start": "electron ./index_dev.js",
+        "prebuild": "yarn upgrade file://..service && tsc && copyfiles -u 3 \"../gui/build/**/*\" out/gui",
+        "build": "build --dir"
+    },
+    "dependencies": {
+        "service": "file:../service"
+    }
+}

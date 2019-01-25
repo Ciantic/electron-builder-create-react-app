@@ -8,6 +8,11 @@
             "script": "start",
             "problemMatcher": [],
             "isBackground": true
+        },
+        {
+            "type": "npm",
+            "script": "build",
+            "problemMatcher": []
         }
     ]
 }

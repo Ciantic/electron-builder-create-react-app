@@ -3,6 +3,10 @@ import { Socket, TcpSocketConnectOpts } from "net";
 
 const dev = process.env.ELECTRON_ENV && process.env.ELECTRON_ENV === "development";
 
+if (!app.requestSingleInstanceLock()) {
+    app.quit();
+}
+
 // On production, this promise just runs directly
 let wait = () => new Promise(res => res());
 

@@ -13,7 +13,7 @@ if (!dev) {
 } else {
     // On development, the main window is opened once ports 3001, 3002 responds
     process.stdout.write(
-        "Development mode, you must start the service and gui manually, waiting for ports 3001 and 3002 to rise up...\n"
+        "Development mode, you must start the service and gui, waiting for ports 3001 and 3002 to rise up...\n"
     );
 
     /**

@@ -1,5 +1,5 @@
 import { app, BrowserWindow } from "electron";
-import { Socket } from "net";
+import { Socket, TcpSocketConnectOpts } from "net";
 
 const dev = process.env.ELECTRON_ENV && process.env.ELECTRON_ENV === "development";
 
@@ -21,7 +21,7 @@ if (!dev) {
      *
      * @param param0
      */
-    let waitConnect = ({ port }: { port: number }) => {
+    let waitConnect = (opts: TcpSocketConnectOpts) => {
         return new Promise((res, rej) => {
             let n = 0;
             let conn = () => {
@@ -32,11 +32,11 @@ if (!dev) {
                 }
                 n++;
                 let c = new Socket();
-                c.connect({ port: port })
+                c.connect(opts)
                     .on("connect", () => {
                         c.end();
                         res();
-                        process.stdout.write(`Detected ${port} rise up...\n`);
+                        process.stdout.write(`Port ${opts.port} is now accepting connections...\n`);
                     })
                     .on("error", () => {
                         // Try after 1000 milliseconds

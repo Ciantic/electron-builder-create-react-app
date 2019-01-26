@@ -41,7 +41,7 @@ function createWindow() {
 app.on("ready", createWindow);
 
 // On development the ready maybe already called
-if (dev && app.isReady) {
+if (dev && app.isReady()) {
     createWindow();
 }
 

@@ -4,6 +4,12 @@
     "main": "index.js",
     "author": "",
     "license": "MIT",
+    "private": true,
+    "workspaces": [
+        "host-electron",
+        "service",
+        "gui"
+    ],
     "devDependencies": {
         "concurrently": "^4.1.0"
     },

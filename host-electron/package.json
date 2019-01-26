@@ -19,10 +19,10 @@
     },
     "scripts": {
         "start": "electron ./index_dev.js",
-        "prebuild": "yarn upgrade file://..service && tsc && copyfiles -u 3 \"../gui/build/**/*\" out/gui",
+        "prebuild": "yarn upgrade service && tsc && copyfiles -u 3 \"../gui/build/**/*\" out/gui",
         "build": "build --dir"
     },
     "dependencies": {
-        "service": "file:../service"
+        "service": "1.0.0"
     }
 }

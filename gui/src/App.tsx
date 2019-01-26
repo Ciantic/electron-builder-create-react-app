@@ -1,4 +1,4 @@
-/// <reference path="../../host-electron/node_modules/electron/electron.d.ts" />
+/// <reference path="../../node_modules/electron/electron.d.ts" />
 
 import React, { Component } from "react";
 import logo from "./logo.svg";

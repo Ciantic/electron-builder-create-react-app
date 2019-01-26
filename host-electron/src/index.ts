@@ -1,56 +1,9 @@
 import { app, BrowserWindow } from "electron";
-import { Socket, TcpSocketConnectOpts } from "net";
 
 const dev = process.env.ELECTRON_ENV && process.env.ELECTRON_ENV === "development";
 
 if (!app.requestSingleInstanceLock()) {
     app.quit();
-}
-
-// On production, this promise just runs directly
-let wait = () => new Promise(res => res());
-
-if (!dev) {
-    // On production the web-service is included as part of electron application, also the gui is
-    // injected in the service url
-    require("service");
-} else {
-    // On development, the main window is opened once ports 3001, 3002 responds
-    process.stdout.write(
-        "Development mode, you must start the service and gui, waiting for ports 3001 and 3002 to rise up...\n"
-    );
-
-    /**
-     * Waits for a connection on port until resolving the promise
-     *
-     * @param param0
-     */
-    let waitConnect = (opts: TcpSocketConnectOpts) => {
-        return new Promise((res, rej) => {
-            let n = 0;
-            let conn = () => {
-                if (n > 20) {
-                    // wait 20 seconds
-                    rej();
-                    return;
-                }
-                n++;
-                let c = new Socket();
-                c.connect(opts)
-                    .on("connect", () => {
-                        c.end();
-                        res();
-                        process.stdout.write(`Port ${opts.port} is now accepting connections...\n`);
-                    })
-                    .on("error", () => {
-                        // Try after 1000 milliseconds
-                        setTimeout(conn, 1000);
-                    });
-            };
-            conn();
-        });
-    };
-    wait = () => Promise.all([waitConnect({ port: 3001 }), waitConnect({ port: 3002 })]);
 }
 
 let mainWindow: Electron.BrowserWindow | null;
@@ -85,14 +38,12 @@ function createWindow() {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on("ready", () => {
-    wait()
-        .then(createWindow)
-        .catch(() => {
-            process.stdout.write("Quitting: GUI and Service was not started...\n");
-            app.quit();
-        });
-});
+app.on("ready", createWindow);
+
+// On development the ready maybe already called
+if (dev && app.isReady) {
+    createWindow();
+}
 
 // Quit when all windows are closed.
 app.on("window-all-closed", () => {

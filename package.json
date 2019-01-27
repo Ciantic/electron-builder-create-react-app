@@ -14,7 +14,7 @@
         "concurrently": "^4.1.0"
     },
     "scripts": {
-        "start": "concurrently --kill-others -n gui,service,electron \"cd gui && yarn start\" \"cd service && yarn start\" \"cd host-electron && yarn start\"",
-        "build": "yarn --cwd gui build && yarn --cwd service build && yarn --cwd host-electron build"
+        "start": "concurrently --kill-others -n gui,service,electron \"yarn workspace gui start\" \"yarn workspace service start\" \"yarn workspace host-electron start\"",
+        "build": "yarn workspace gui build && yarn workspace service build && yarn workspace host-electron build"
     }
 }
